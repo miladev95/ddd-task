@@ -139,6 +139,51 @@ make test
 make build
 ```
 
+## API Endpoints
+
+### Health Check
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/health` | System health status check |
+
+### Users
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/users` | Create a new user |
+| GET | `/api/users/get?id={id}` | Get user by ID |
+
+### Workflows
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/workflows` | Create a new workflow with statuses |
+| GET | `/api/workflows/get?id={id}` | Get workflow by ID |
+
+### Projects
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/projects` | Create a new project |
+| GET | `/api/projects/get?id={id}` | Get project by ID |
+
+### Tasks
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/tasks` | Create a new task in a project |
+| GET | `/api/tasks/{id}` | Get task by ID |
+| GET | `/api/tasks/project/{project_id}` | List all tasks in a project |
+| PUT | `/api/tasks/{id}/status` | Update task status |
+| POST | `/api/tasks/{id}/assign` | Assign task to a user |
+| POST | `/api/tasks/{id}/comments` | Add comment to a task |
+| GET | `/api/tasks/{id}/comments` | Get all comments for a task |
+
+### Quick Setup Flow
+To get started quickly, follow this order:
+1. Create users (POST `/api/users`)
+2. Create workflow (POST `/api/workflows`)
+3. Create project (POST `/api/projects`)
+4. Create tasks (POST `/api/tasks`)
+
+> **Note**: See [API_SETUP_GUIDE.md](./API_SETUP_GUIDE.md) for detailed request/response examples and [Postman collection](./Task_Management_API.postman_collection.json) for interactive testing.
+
 ## Example Flows
 
 ### Command Flow: Create Task
