@@ -3,9 +3,9 @@ package query
 import (
 	"fmt"
 
-	"github.com/example/task-management/application/dto"
-	"github.com/example/task-management/domain"
-	"github.com/example/task-management/domain/value"
+	"github.com/miladev95/ddd-task/application/dto"
+	"github.com/miladev95/ddd-task/domain"
+	"github.com/miladev95/ddd-task/domain/value"
 )
 
 // GetTaskQuery represents a query to get a task by ID

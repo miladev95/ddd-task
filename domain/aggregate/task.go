@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/example/task-management/domain/entity"
-	"github.com/example/task-management/domain/event"
-	"github.com/example/task-management/domain/value"
+	"github.com/miladev95/ddd-task/domain/entity"
+	"github.com/miladev95/ddd-task/domain/event"
+	"github.com/miladev95/ddd-task/domain/value"
 )
 
 // Task is the aggregate root for the Task aggregate

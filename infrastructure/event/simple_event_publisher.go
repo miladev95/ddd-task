@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/example/task-management/domain/event"
+	"github.com/miladev95/ddd-task/domain/event"
 )
 
 // SimpleEventPublisher is a basic in-memory event publisher implementation

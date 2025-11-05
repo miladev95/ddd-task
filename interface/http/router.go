@@ -3,8 +3,8 @@ package http
 import (
 	"net/http"
 
-	"github.com/example/task-management/interface/http/handler"
-	"github.com/example/task-management/shared/di"
+	"github.com/miladev95/ddd-task/interface/http/handler"
+	"github.com/miladev95/ddd-task/shared/di"
 )
 
 // Router sets up all HTTP routes

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/example/task-management/domain/aggregate"
-	"github.com/example/task-management/domain/value"
+	"github.com/miladev95/ddd-task/domain/aggregate"
+	"github.com/miladev95/ddd-task/domain/value"
 )
 
 // DeadlineEnforcementService handles deadline validation and enforcement

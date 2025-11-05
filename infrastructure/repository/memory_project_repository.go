@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/example/task-management/domain"
-	"github.com/example/task-management/domain/aggregate"
-	"github.com/example/task-management/domain/value"
+	"github.com/miladev95/ddd-task/domain"
+	"github.com/miladev95/ddd-task/domain/aggregate"
+	"github.com/miladev95/ddd-task/domain/value"
 )
 
 // InMemoryProjectRepository is an in-memory implementation of ProjectRepository

@@ -3,8 +3,8 @@ package service
 import (
 	"fmt"
 
-	"github.com/example/task-management/domain/aggregate"
-	"github.com/example/task-management/domain/value"
+	"github.com/miladev95/ddd-task/domain/aggregate"
+	"github.com/miladev95/ddd-task/domain/value"
 )
 
 // StatusTransitionService handles task status transitions with business rule validation

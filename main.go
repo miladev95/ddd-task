@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	httpServer "github.com/example/task-management/interface/http"
-	"github.com/example/task-management/shared/di"
+	httpServer "github.com/miladev95/ddd-task/interface/http"
+	"github.com/miladev95/ddd-task/shared/di"
 )
 
 func main() {

@@ -1,13 +1,13 @@
 package di
 
 import (
-	"github.com/example/task-management/application/command"
-	"github.com/example/task-management/application/query"
-	"github.com/example/task-management/domain"
-	"github.com/example/task-management/domain/event"
-	"github.com/example/task-management/domain/service"
-	infraEvent "github.com/example/task-management/infrastructure/event"
-	"github.com/example/task-management/infrastructure/repository"
+	"github.com/miladev95/ddd-task/application/command"
+	"github.com/miladev95/ddd-task/application/query"
+	"github.com/miladev95/ddd-task/domain"
+	"github.com/miladev95/ddd-task/domain/event"
+	"github.com/miladev95/ddd-task/domain/service"
+	infraEvent "github.com/miladev95/ddd-task/infrastructure/event"
+	"github.com/miladev95/ddd-task/infrastructure/repository"
 )
 
 // Container holds all application dependencies

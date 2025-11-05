@@ -3,8 +3,8 @@ package event
 import (
 	"fmt"
 
-	"github.com/example/task-management/domain/aggregate"
-	"github.com/example/task-management/domain/service"
+	"github.com/miladev95/ddd-task/domain/aggregate"
+	"github.com/miladev95/ddd-task/domain/service"
 )
 
 // SimpleNotificationService is a basic implementation of NotificationService

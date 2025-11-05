@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/example/task-management/application/command"
-	"github.com/example/task-management/domain/aggregate"
-	"github.com/example/task-management/domain/value"
-	"github.com/example/task-management/shared/di"
+	"github.com/miladev95/ddd-task/application/command"
+	"github.com/miladev95/ddd-task/domain/aggregate"
+	"github.com/miladev95/ddd-task/domain/value"
+	"github.com/miladev95/ddd-task/shared/di"
 )
 
 // This file demonstrates how to use the DDD architecture

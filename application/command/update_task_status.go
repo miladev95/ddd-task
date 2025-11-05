@@ -3,10 +3,10 @@ package command
 import (
 	"fmt"
 
-	"github.com/example/task-management/domain"
-	"github.com/example/task-management/domain/event"
-	"github.com/example/task-management/domain/service"
-	"github.com/example/task-management/domain/value"
+	"github.com/miladev95/ddd-task/domain"
+	"github.com/miladev95/ddd-task/domain/event"
+	"github.com/miladev95/ddd-task/domain/service"
+	"github.com/miladev95/ddd-task/domain/value"
 )
 
 // UpdateTaskStatusCommand represents a command to update task status

@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/example/task-management/application/command"
-	"github.com/example/task-management/application/dto"
-	"github.com/example/task-management/application/query"
-	"github.com/example/task-management/interface/http/middleware"
-	"github.com/example/task-management/shared/di"
+	"github.com/miladev95/ddd-task/application/command"
+	"github.com/miladev95/ddd-task/application/dto"
+	"github.com/miladev95/ddd-task/application/query"
+	"github.com/miladev95/ddd-task/interface/http/middleware"
+	"github.com/miladev95/ddd-task/shared/di"
 )
 
 // TaskHandler handles HTTP requests for tasks
