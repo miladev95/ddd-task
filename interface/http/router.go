@@ -25,13 +25,73 @@ func NewRouter(container *di.Container) *Router {
 
 // SetupRoutes sets up all HTTP routes
 func (r *Router) SetupRoutes() {
+	// Initialize handlers
+	taskHandler := handler.NewTaskHandler(r.container)
+	projectHandler := handler.NewProjectHandler(r.container)
+	userHandler := handler.NewUserHandler(r.container)
+	workflowHandler := handler.NewWorkflowHandler(r.container)
+
+	// User routes
+	r.mux.HandleFunc("/api/users", func(w http.ResponseWriter, req *http.Request) {
+		switch req.Method {
+		case http.MethodPost:
+			userHandler.CreateUser(w, req)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	r.mux.HandleFunc("/api/users/get", func(w http.ResponseWriter, req *http.Request) {
+		if req.Method == http.MethodGet {
+			userHandler.GetUser(w, req)
+		} else {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	// Workflow routes
+	r.mux.HandleFunc("/api/workflows", func(w http.ResponseWriter, req *http.Request) {
+		switch req.Method {
+		case http.MethodPost:
+			workflowHandler.CreateWorkflow(w, req)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	r.mux.HandleFunc("/api/workflows/get", func(w http.ResponseWriter, req *http.Request) {
+		if req.Method == http.MethodGet {
+			workflowHandler.GetWorkflow(w, req)
+		} else {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	// Project routes
+	r.mux.HandleFunc("/api/projects", func(w http.ResponseWriter, req *http.Request) {
+		switch req.Method {
+		case http.MethodPost:
+			projectHandler.CreateProject(w, req)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	r.mux.HandleFunc("/api/projects/get", func(w http.ResponseWriter, req *http.Request) {
+		if req.Method == http.MethodGet {
+			projectHandler.GetProject(w, req)
+		} else {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
 	// Task routes
 	r.mux.HandleFunc("/api/tasks", func(w http.ResponseWriter, req *http.Request) {
 		switch req.Method {
 		case http.MethodPost:
-			r.taskHandler.CreateTask(w, req)
+			taskHandler.CreateTask(w, req)
 		case http.MethodGet:
-			r.taskHandler.ListTasksByProject(w, req)
+			taskHandler.ListTasksByProject(w, req)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
@@ -39,7 +99,7 @@ func (r *Router) SetupRoutes() {
 
 	r.mux.HandleFunc("/api/tasks/get", func(w http.ResponseWriter, req *http.Request) {
 		if req.Method == http.MethodGet {
-			r.taskHandler.GetTask(w, req)
+			taskHandler.GetTask(w, req)
 		} else {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
@@ -47,7 +107,7 @@ func (r *Router) SetupRoutes() {
 
 	r.mux.HandleFunc("/api/tasks/assign", func(w http.ResponseWriter, req *http.Request) {
 		if req.Method == http.MethodPost {
-			r.taskHandler.AssignTask(w, req)
+			taskHandler.AssignTask(w, req)
 		} else {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
@@ -55,7 +115,7 @@ func (r *Router) SetupRoutes() {
 
 	r.mux.HandleFunc("/api/tasks/status", func(w http.ResponseWriter, req *http.Request) {
 		if req.Method == http.MethodPut {
-			r.taskHandler.UpdateTaskStatus(w, req)
+			taskHandler.UpdateTaskStatus(w, req)
 		} else {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}

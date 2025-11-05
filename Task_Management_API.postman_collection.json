@@ -1,0 +1,775 @@
+{
+  "info": {
+    "name": "Task Management System - DDD Architecture",
+    "description": "Complete API collection for the Domain-Driven Design Task Management System. Start with Setup section to create users, workflows, and projects before creating tasks.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12345678"
+  },
+  "item": [
+    {
+      "name": "Setup & Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Check if the API server is running and healthy"
+          },
+          "response": [
+            {
+              "name": "Healthy Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/health",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "health"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"healthy\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Setup - Step 1: Users",
+      "item": [
+        {
+          "name": "Create User (Alice)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alice@example.com\",\n  \"first_name\": \"Alice\",\n  \"last_name\": \"Johnson\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            },
+            "description": "Create a new user - Alice (will be used as project owner)"
+          },
+          "response": [
+            {
+              "name": "User Created Successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"alice@example.com\",\n  \"first_name\": \"Alice\",\n  \"last_name\": \"Johnson\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/users",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "users"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"user_id\": \"550e8400-e29b-41d4-a716-446655440001\",\n  \"email\": \"alice@example.com\",\n  \"first_name\": \"Alice\",\n  \"last_name\": \"Johnson\",\n  \"full_name\": \"Alice Johnson\",\n  \"message\": \"User created successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create User (Bob)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"bob@example.com\",\n  \"first_name\": \"Bob\",\n  \"last_name\": \"Smith\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
+            },
+            "description": "Create a new user - Bob (will be assigned to tasks)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/users/get?id=550e8400-e29b-41d4-a716-446655440001",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440001",
+                  "description": "The user ID to retrieve"
+                }
+              ]
+            },
+            "description": "Retrieve a specific user by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Setup - Step 2: Workflows",
+      "item": [
+        {
+          "name": "Create Workflow (Default)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Default Workflow\",\n  \"description\": \"Standard project workflow with 5 statuses\",\n  \"statuses\": [\n    {\n      \"name\": \"Backlog\",\n      \"description\": \"Tasks in backlog\",\n      \"order\": 1,\n      \"is_final\": false\n    },\n    {\n      \"name\": \"To Do\",\n      \"description\": \"Tasks to do\",\n      \"order\": 2,\n      \"is_final\": false\n    },\n    {\n      \"name\": \"In Progress\",\n      \"description\": \"Tasks in progress\",\n      \"order\": 3,\n      \"is_final\": false\n    },\n    {\n      \"name\": \"In Review\",\n      \"description\": \"Tasks in review\",\n      \"order\": 4,\n      \"is_final\": false\n    },\n    {\n      \"name\": \"Completed\",\n      \"description\": \"Tasks completed\",\n      \"order\": 5,\n      \"is_final\": true\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/workflows",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "workflows"
+              ]
+            },
+            "description": "Create a new workflow with status definitions. This is required before creating projects."
+          },
+          "response": [
+            {
+              "name": "Workflow Created Successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Default Workflow\",\n  \"description\": \"Standard project workflow\",\n  \"statuses\": [\n    {\"name\": \"Backlog\", \"order\": 1, \"is_final\": false},\n    {\"name\": \"To Do\", \"order\": 2, \"is_final\": false},\n    {\"name\": \"In Progress\", \"order\": 3, \"is_final\": false}\n  ]\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/workflows",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "workflows"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"workflow_id\": \"550e8400-e29b-41d4-a716-446655440002\",\n  \"name\": \"Default Workflow\",\n  \"description\": \"Standard project workflow\",\n  \"message\": \"Workflow created successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Workflow",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/workflows/get?id=550e8400-e29b-41d4-a716-446655440002",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "workflows",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440002",
+                  "description": "The workflow ID to retrieve"
+                }
+              ]
+            },
+            "description": "Retrieve a specific workflow by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Setup - Step 3: Projects",
+      "item": [
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Web Application Development\",\n  \"description\": \"Build a modern web application with authentication and API\",\n  \"owner_id\": \"550e8400-e29b-41d4-a716-446655440001\",\n  \"workflow_id\": \"550e8400-e29b-41d4-a716-446655440002\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/projects",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "projects"
+              ]
+            },
+            "description": "Create a new project. Replace owner_id and workflow_id with actual values from previous steps."
+          },
+          "response": [
+            {
+              "name": "Project Created Successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Web Application Development\",\n  \"description\": \"Build a modern web application\",\n  \"owner_id\": \"550e8400-e29b-41d4-a716-446655440001\",\n  \"workflow_id\": \"550e8400-e29b-41d4-a716-446655440002\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/projects",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "projects"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"project_id\": \"550e8400-e29b-41d4-a716-446655440003\",\n  \"name\": \"Web Application Development\",\n  \"message\": \"Project created successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/projects/get?id=550e8400-e29b-41d4-a716-446655440003",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440003",
+                  "description": "The project ID to retrieve"
+                }
+              ]
+            },
+            "description": "Retrieve a specific project by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Task Management",
+      "item": [
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-ID",
+                "value": "550e8400-e29b-41d4-a716-446655440001",
+                "description": "User ID of the task creator"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project_id\": \"550e8400-e29b-41d4-a716-446655440003\",\n  \"title\": \"Implement User Authentication\",\n  \"description\": \"Add JWT-based authentication to the API\",\n  \"priority\": \"HIGH\",\n  \"assignee_id\": \"550e8400-e29b-41d4-a716-446655440002\",\n  \"deadline\": \"2025-12-31T23:59:59Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            },
+            "description": "Create a new task. Project must exist first. Deadline and assignee are optional."
+          },
+          "response": [
+            {
+              "name": "Task Created Successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-User-ID",
+                    "value": "550e8400-e29b-41d4-a716-446655440001"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"project_id\": \"550e8400-e29b-41d4-a716-446655440003\",\n  \"title\": \"Implement User Authentication\",\n  \"description\": \"Add JWT-based authentication to the API\",\n  \"priority\": \"HIGH\",\n  \"assignee_id\": \"550e8400-e29b-41d4-a716-446655440002\",\n  \"deadline\": \"2025-12-31T23:59:59Z\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"task_id\": \"550e8400-e29b-41d4-a716-446655440004\",\n  \"message\": \"Task created successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Task by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/get?id=550e8400-e29b-41d4-a716-446655440004",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440004",
+                  "description": "The unique identifier of the task"
+                }
+              ]
+            },
+            "description": "Retrieve a specific task by its ID"
+          },
+          "response": [
+            {
+              "name": "Task Retrieved Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks/get?id=550e8400-e29b-41d4-a716-446655440004",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks",
+                    "get"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "550e8400-e29b-41d4-a716-446655440004"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"550e8400-e29b-41d4-a716-446655440004\",\n  \"project_id\": \"550e8400-e29b-41d4-a716-446655440003\",\n  \"title\": \"Implement User Authentication\",\n  \"description\": \"Add JWT-based authentication to the API\",\n  \"status\": \"BACKLOG\",\n  \"priority\": \"HIGH\",\n  \"assignee\": {\n    \"assignee_id\": \"550e8400-e29b-41d4-a716-446655440002\",\n    \"assigned_at\": \"2025-01-15T10:30:00Z\",\n    \"assigned_by\": \"550e8400-e29b-41d4-a716-446655440001\"\n  },\n  \"deadline\": {\n    \"due_date\": \"2025-12-31T23:59:59Z\",\n    \"is_overdue\": false,\n    \"days_until\": 350\n  },\n  \"created_at\": \"2025-01-15T10:00:00Z\",\n  \"updated_at\": \"2025-01-15T10:00:00Z\",\n  \"created_by\": \"550e8400-e29b-41d4-a716-446655440001\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Tasks by Project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tasks?project_id=550e8400-e29b-41d4-a716-446655440003&status=IN_PROGRESS",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ],
+              "query": [
+                {
+                  "key": "project_id",
+                  "value": "550e8400-e29b-41d4-a716-446655440003",
+                  "description": "The project ID to filter tasks"
+                },
+                {
+                  "key": "status",
+                  "value": "IN_PROGRESS",
+                  "description": "Optional: Filter by task status (BACKLOG, TO_DO, IN_PROGRESS, IN_REVIEW, COMPLETED, CANCELLED)"
+                }
+              ]
+            },
+            "description": "Get all tasks for a specific project, optionally filtered by status"
+          },
+          "response": [
+            {
+              "name": "Tasks Retrieved Successfully",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks?project_id=550e8400-e29b-41d4-a716-446655440003&status=IN_PROGRESS",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "project_id",
+                      "value": "550e8400-e29b-41d4-a716-446655440003"
+                    },
+                    {
+                      "key": "status",
+                      "value": "IN_PROGRESS"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tasks\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440004\",\n      \"project_id\": \"550e8400-e29b-41d4-a716-446655440003\",\n      \"title\": \"Implement User Authentication\",\n      \"status\": \"IN_PROGRESS\",\n      \"priority\": \"HIGH\",\n      \"created_at\": \"2025-01-15T10:00:00Z\"\n    }\n  ],\n  \"count\": 1\n}"
+            }
+          ]
+        },
+        {
+          "name": "Assign Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-User-ID",
+                "value": "550e8400-e29b-41d4-a716-446655440001",
+                "description": "User ID of the person assigning the task"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignee_id\": \"550e8400-e29b-41d4-a716-446655440002\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks/assign?id=550e8400-e29b-41d4-a716-446655440004",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "assign"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440004",
+                  "description": "The task ID to assign"
+                }
+              ]
+            },
+            "description": "Assign a task to a user (required before task can move to IN_PROGRESS)"
+          },
+          "response": [
+            {
+              "name": "Task Assigned Successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-User-ID",
+                    "value": "550e8400-e29b-41d4-a716-446655440001"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"assignee_id\": \"550e8400-e29b-41d4-a716-446655440002\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks/assign?id=550e8400-e29b-41d4-a716-446655440004",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks",
+                    "assign"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "550e8400-e29b-41d4-a716-446655440004"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Task assigned successfully\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Task Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks/status?id=550e8400-e29b-41d4-a716-446655440004",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "550e8400-e29b-41d4-a716-446655440004",
+                  "description": "The task ID to update"
+                }
+              ]
+            },
+            "description": "Update the status of a task following the state machine (BACKLOG → TO_DO → IN_PROGRESS → IN_REVIEW → COMPLETED/CANCELLED). Task must be assigned before moving to IN_PROGRESS."
+          },
+          "response": [
+            {
+              "name": "Status Updated Successfully",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"IN_PROGRESS\"\n}"
+                },
+                "url": {
+                  "raw": "http://localhost:8080/api/tasks/status?id=550e8400-e29b-41d4-a716-446655440004",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "api",
+                    "tasks",
+                    "status"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "550e8400-e29b-41d4-a716-446655440004"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Task status updated successfully\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string",
+      "description": "Base URL for the API. Change this to match your deployment environment."
+    }
+  ]
+}
