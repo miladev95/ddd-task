@@ -1,0 +1,89 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.so.*
+*.dylib
+bin/
+dist/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+coverage.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build output
+/bin
+/dist
+
+# Temporary files
+tmp/
+temp/
+
+# IDE specific files
+*.iml
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# OS generated files
+._*
+.AppleDouble
+.LSOverride
+
+# Node (if needed)
+node_modules/
+npm-debug.log
+
+# Python (if needed)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Config files (usually environment-specific)
+config/local.yml
+config/production.yml
+
+# Database migrations (versioning)
+db/migrations/*.done
+
+# Test coverage
+coverage/
